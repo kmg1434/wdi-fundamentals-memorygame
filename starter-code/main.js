@@ -1,32 +1,55 @@
-console.log("JS file is connected to HTML! Woo!")
-
-
-// four card variable initialization
-var cardOne = "queen";
-var cardTwo = "king";
-var cardThree = "king";
-var cardFour = "king";
+// four card array initialization
+var cards = ['queen', 'queen', 'king', 'king'];
+var cardsInPlay = [];
 
 var board = document.getElementById('game-board');
 
-var createCards = function(cardCount){
+function createBoard(){
+	for (var i = 0; i< cards.length; i++){
 
-	cardCount = 4;
+			var cardElement = document.createElement('div');
+			cardElement.className = 'card';
+			cardElement.setAttribute('data-card', cards[i]);
+			cardElement.addEventListener('click', isTwoCards);
 
-	for (var i=1; i<=cardCount; i++){
+			board.appendChild(cardElement);
 
-		var newCard = document.createElement('div');
-		newCard.className = 'card';
-		board.appendChild(newCard);
 	}
 }
 
-/*
-if (cardTwo === cardFour){
+// check if we have a match
+function isMatch(){
+	if (cardsInPlay[0] === cardsInPlay[1])
+	{
+		alert("You found a match!");
+	} else
+	{
+		alert("Sorry, try again.");
+	}
+}
 
-	alert('You found a match!');
+//check to see if there are two cards in play
+function isTwoCards(){
+
+	cardsInPlay.push(this.getAttribute('data-card'));
+	console.log(this.getAttribute('data-card'));
+
+	if (this.getAttribute('data-card') === 'king') {
+		this.innerHTML = "<img src='king.png'>";
+	} else {
+		this.innerHTML = "<img src='queen.png'>";
+	}
+
+	if (cardsInPlay.length === 2){
+		cardsInPlay = [];
+		isMatch(cardsInPlay);
+	}
 }
-else {
-	alert('Sorry, try again.');
+
+function resetCards() {
+		var board_children = board.children;
+
+		for (var i = 0; i < board_children.length; i++) {
+				board_children[i].innerHTML = '';
+		}
 }
-*/
